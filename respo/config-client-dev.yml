@@ -1,1 +1,64 @@
 
+# 打印SQL
+logging:
+  level:
+    com:
+      peeksc:
+        demo:
+          mapper: DEBUG
+spring:
+  datasource:
+     url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+     username: root
+     password: root
+     driver-class-name: com.mysql.cj.jdbc.Driver
+#     driver-class-name: com.mysql.jdbc.Driver
+  #     #类型
+     type: com.alibaba.druid.pool.DruidDataSource
+     #数据源补充设置
+     druid:
+         #初始化大小
+         initialSize: 5
+         #最大
+         maxActive: 10
+         #最小
+         minIdle: 5
+         #连接超时时间
+         maxWait: 60000
+         # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+         timeBetweenEvictionRunsMillis: 60000
+         # 配置一个连接在池中最小生存的时间，单位是毫秒
+         minEvictableIdleTimeMillis: 300000
+         # 打开PSCache
+         poolPreparedStatements: true
+         maxOpenPreparedStatements: 100
+         removeAbandonedTimeout: 180
+         testWhileIdle: true
+         # 申请连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+         testOnBorrow: false
+         # 归还连接时执行validationQuery检测连接是否有效，配置为true会降低性能
+         testOnReturn: false
+         # 用来检测连接是否有效的sql，要求是一个查询语句,如果validationQuery为null，testOnBorrow、testOnReturn、testWhileIdle都不起其作用。
+         validationQuery: SELECT 1 FROM DUAL
+        # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙,防止sql注入
+         filters: stat,wall,log4j
+         logSlowSql: true
+         #通过connectProperties属性来打开mergeSql功能；慢SQL记录
+         connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+         #合并多个DruidDataSource的监控数据
+         #spring.datasource.druid.useGlobalDataSourceStat=true
+         #http://localhost:8762/druid/sql.html  访问这个页面
+  resources:
+     static-locations: classpath:/static/,classpath:/resources/
+#durid登陆账号密码  DruidConfig类调用
+loginUsername: root
+loginPassword: 123456
+#// 禁用HTML页面上的“Reset All”功能
+resetEnable: false
+#// IP白名单 (没有配置或者为空，则允许所有访问)
+allow: 192.168.0.110,127.0.0.1
+#// IP黑名单 (存在共同时，deny优先于allow)
+deny:
+mybatis:
+#   type-aliases-package: com.peeksc.demo.entity
+   mapper-locations: classpath:mappers/*.xml
